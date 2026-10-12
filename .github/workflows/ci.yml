@@ -16,8 +16,18 @@ jobs:
         with:
           dotnet-version: '10.0.x'
 
+      - name: Localizar solución o proyecto
+        id: objetivo
+        run: |
+          RUTA=$(find . \( -name '*.slnx' -o -name '*.sln' \) | head -n 1)
+          if [ -z "$RUTA" ]; then
+            RUTA=$(find . -name '*.csproj' | head -n 1)
+          fi
+          echo "Objetivo encontrado: $RUTA"
+          echo "ruta=$RUTA" >> "$GITHUB_OUTPUT"
+
       - name: Restaurar dependencias
-        run: dotnet restore
+        run: dotnet restore "${{ steps.objetivo.outputs.ruta }}"
 
       - name: Compilar
-        run: dotnet build --no-restore --configuration Release
+        run: dotnet build "${{ steps.objetivo.outputs.ruta }}" --no-restore --configuration Release
