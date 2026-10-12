@@ -31,3 +31,9 @@ jobs:
 
       - name: Compilar
         run: dotnet build "${{ steps.objetivo.outputs.ruta }}" --no-restore --configuration Release
+
+      - name: Ejecutar programa
+        run: dotnet run --project Biblioteca/Biblioteca/Biblioteca.csproj --no-build --configuration Release | tee salida.txt
+
+      - name: Verificar salida esperada
+        run: grep -q "vencidos: 0" salida.txt
