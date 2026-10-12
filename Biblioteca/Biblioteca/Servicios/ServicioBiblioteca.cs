@@ -50,4 +50,12 @@ public class ServicioBiblioteca
         prestamo.Usuario.QuitarPrestamo(prestamo);
         return multa;
     }
+
+    public IReadOnlyList<Prestamo> ObtenerPrestamosVencidos()
+    {
+        var ahora = _reloj.Ahora;
+        return _prestamos
+            .Where(p => p.Activo && p.FechaVencimiento < ahora)
+            .ToList();
+    }
 }

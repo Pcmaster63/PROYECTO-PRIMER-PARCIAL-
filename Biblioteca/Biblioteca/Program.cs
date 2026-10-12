@@ -22,6 +22,8 @@ try
     var prestamo = servicio.Prestar(libro.Id, ana.Id);
     Console.WriteLine($"Préstamo: {prestamo.Recurso.Descripcion()} vence {prestamo.FechaVencimiento:d}");
 
+    Console.WriteLine($"Préstamos vencidos: {servicio.ObtenerPrestamosVencidos().Count}");
+
     servicio.Prestar(libro.Id, ana.Id); // debe fallar: ya está prestado
 }
 catch (BibliotecaExcepcion ex)
